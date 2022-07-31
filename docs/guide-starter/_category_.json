@@ -1,0 +1,9 @@
+{
+    "position": 2,
+    "label": "Starter Guide",
+    "collapsible": true,
+    "collapsed": true,
+    "customProps": {
+      "description": "Guide targetting both MutableSecurity's users and developers"
+    }
+  }
