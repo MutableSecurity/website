@@ -1,5 +1,5 @@
 ---
-sidebar_position: 4
+sidebar_position: 6
 ---
 
 # Installing and Managing Solutions
@@ -8,11 +8,11 @@ sidebar_position: 4
 
 Check out the solution details: `mutablesecurity --solution <solution>`. The `<solution>` parameter is the identifier of the solution and can eventually be found in the manual of MutableSecurity.
 
-The information here can be easily correlated with the one from the starter guide, especially from [indexes](../guide-starter/Indexes.md).
+The information here can be easily correlated with the one from the starter guide, especially from [indexes](basics/Indexes).
 
 ## Deployment Details Selection
 
-Select a [deployment style](Selecting%20the%20Deployment%20Style.md) and, eventually, an [authentication method](Selecting%20an%20Authentication%20Method%20for%20Remote%20Deployment.md). The process result in a bunch of parameters that will be attached to every command above.
+Select a [deployment style](./Selecting%20the%20Deployment%20Style.md) and, eventually, an [authentication method](Selecting%20an%20Authentication%20Method%20for%20Remote%20Deployment.md). The process result in a bunch of parameters that will be attached to every command above.
 
 ## Pre-deployment Configuration
 

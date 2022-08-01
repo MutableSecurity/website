@@ -1,9 +1,0 @@
-{
-    "position": 3,
-    "label": "Users Guide",
-    "collapsible": true,
-    "collapsed": true,
-    "customProps": {
-      "description": "Guide targetting MutableSecurity's users"
-    }
-  }

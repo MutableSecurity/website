@@ -1,10 +1,10 @@
 ---
-sidebar_position: 4
+sidebar_position: 6
 ---
 
 # Configuring the Development Environment
 
-1. Install the [main requirements](README.md#requirements-) of the project.
+1. Install the [main requirements](users/Installing%20the%20Package.md) of the project.
 2. Install Poetry by following the [official installation guide](https://github.com/python-poetry/poetry#installation).
 3. Run `poetry install` to download the required Python packages.
 4. Run `poetry shell` to enter the environment. By running `mutablesecurity`, you will be able to see the tool's banner and guide.

@@ -10,14 +10,14 @@ const config = {
   tagline: 'Seamless deployment and management of cybersecurity solutions',
   url: 'https://mutablesecurity.io',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'MutableSecurity', // Usually your GitHub org/user name.
+  projectName: 'mutablesecurity.io', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -26,6 +26,20 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  plugins: [
+    function (context, options) {
+      return {
+        name: 'webpack-configuration-plugin',
+        configureWebpack(config, isServer, utils) {
+          return {
+            resolve: {
+              symlinks: false,
+            }
+          };
+        }
+      };
+    },
+  ],
 
   presets: [
     [
@@ -34,17 +48,9 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -69,10 +75,14 @@ const config = {
             position: 'left'
           },
           {
-            type: 'doc',
-            docId: 'intro',
-            position: 'left',
-            label: 'Guides',
+            to: '/docs/users',
+            label: 'Users Guide',
+            position: 'left'
+          },
+          {
+            to: '/docs/developers',
+            label: 'Developers Guide',
+            position: 'left'
           },
           {
             to: '/blog',
@@ -81,13 +91,27 @@ const config = {
           },
           {
             href: 'https://github.com/MutableSecurity',
-            label: 'GitHub',
-            position: 'right',
+            position: "right",
+            className: "navbar-icon github",
+            "aria-label": "GitHub",
           },
           {
             href: 'https://pypi.org/project/mutablesecurity/',
-            label: 'PyPi',
-            position: 'right',
+            position: "right",
+            className: "navbar-icon pypi",
+            "aria-label": "PyPi",
+          },
+          {
+            href: 'https://linkedin.com/company/mutablesecurity',
+            position: "right",
+            className: "navbar-icon linkedin",
+            "aria-label": "LinkedIn",
+          },
+          {
+            href: 'https://twitter.com/mutablesecurity',
+            position: "right",
+            className: "navbar-icon twitter",
+            "aria-label": "Twitter",
           },
         ],
       },
@@ -95,24 +119,28 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Sitemap',
+            title: 'Content',
             items: [
               {
                 label: 'Home',
                 to: '/',
               },
               {
-                label: 'Guides',
-                to: '/docs/intro',
+                label: 'Users Guide',
+                to: '/docs/users',
               },
               {
-                label: 'Bog',
+                label: 'Developers Guide',
+                to: '/docs/developers',
+              },
+              {
+                label: 'Blog',
                 to: '/blog',
               },
             ],
           },
           {
-            title: 'References',
+            title: 'Links',
             items: [
               {
                 label: 'GitHub',
@@ -138,6 +166,11 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      colorMode: {
+        defaultMode: 'light',
+        disableSwitch: true,
+        respectPrefersColorScheme: false,
       },
     }),
 };

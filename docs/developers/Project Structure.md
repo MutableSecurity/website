@@ -1,8 +1,8 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
 ---
 
-# Understanding the Project
+# Project Structure
 
 From a development point of view (landing page not included), the project resides on multiple platforms:
 - **GitHub** for:
