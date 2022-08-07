@@ -4,6 +4,7 @@ import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 import solutions from '@site/static/data/solutions.json';
+import NotFound from '@theme/NotFound';
 
 function HeroBanner() {
   return (
@@ -43,20 +44,21 @@ function SolutionCard(props) {
   let imagePath = '/images/solutions/' + props.identifier + '.webp';
   let docLink = 'docs/users/modules/' + props.identifier;
 
-  let maturityBadge = '';
+  let typeClass = null;
   switch (props.maturity) {
-    case 'production':
-      maturityBadge = <span class="badge badge--success">Production</span>;
+    case 'Production':
+      typeClass = 'badge--success';
       break;
-    case 'refactoring':
-      maturityBadge = (
-        <span class="badge badge--warning">Under refactoring</span>
-      );
+    case 'Under refactoring':
+      typeClass = 'badge--warning';
       break;
-    case 'under_development':
-      maturityBadge = <span class="badge badge--info">Under development</span>;
+    case 'Under development':
+      typeClass = 'badge--info';
       break;
   }
+  let maturityBadge = (
+    <span className={clsx('badge', typeClass)}>{props.maturity}</span>
+  );
 
   let categoriesBadges = props.categories.map((category) => (
     <span class="badge badge--primary">{category}</span>
