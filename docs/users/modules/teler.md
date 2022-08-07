@@ -145,8 +145,8 @@ teler is a real-time intrusion detection and threat alert based on web log. Targ
             <td>Generated alerts in JSON format</td>
         </tr>
         <tr>
-            <td><code>json_alerts</code></td>
-            <td>Generated alerts in JSON format</td>
+            <td><code>text_alerts</code></td>
+            <td>Generated alerts in plaintext format</td>
         </tr>
     </tbody>
 </table>

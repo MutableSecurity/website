@@ -31,7 +31,7 @@ Fail2ban is an intrusion prevention software framework that protects Unix-like s
         </tr>
         <tr>
             <td><code>restart_service</code></td>
-            <td>Stops the Fail2ban service.</td>
+            <td>Restarts the Fail2ban service.</td>
             <td></td>
         </tr>
         <tr>
@@ -40,7 +40,7 @@ Fail2ban is an intrusion prevention software framework that protects Unix-like s
             <td></td>
         </tr>
         <tr>
-            <td><code>start_service</code></td>
+            <td><code>stop_service</code></td>
             <td>Stops the Fail2ban service.</td>
             <td></td>
         </tr>

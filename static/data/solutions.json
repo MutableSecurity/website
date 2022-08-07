@@ -4,7 +4,7 @@
     "full_name": "teler",
     "description": "teler is a real-time intrusion detection and threat alert based on web log. Targets only nginx installed on Ubuntu.",
     "status": "production",
-    "categories": ["Host Intrusion Prevention System"]
+    "categories": ["Web Intrusion Detection System"]
   },
   {
     "identifier": "fail2ban",
@@ -25,6 +25,6 @@
     "full_name": "Suricata",
     "description": "Suricata is the leading independent open source threat detection engine. By combining intrusion detection (IDS), intrusion prevention (IPS), network security monitoring (NSM) and PCAP processing, Suricata can quickly identify, stop, and assess even the most sophisticated attacks.",
     "status": "refactoring",
-    "categories": ["Host Intrusion Prevention System"]
+    "categories": ["Network Intrusion Detection and Prevention System"]
   }
 ]
