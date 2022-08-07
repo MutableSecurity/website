@@ -43,22 +43,22 @@ function SolutionCard(props) {
   let imagePath = '/images/solutions/' + props.identifier + '.webp';
   let docLink = 'docs/users/modules/' + props.identifier;
 
-  let status_badge = '';
-  switch (props.status) {
+  let maturityBadge = '';
+  switch (props.maturity) {
     case 'production':
-      status_badge = <span class="badge badge--success">Production</span>;
+      maturityBadge = <span class="badge badge--success">Production</span>;
       break;
     case 'refactoring':
-      status_badge = (
+      maturityBadge = (
         <span class="badge badge--warning">Under refactoring</span>
       );
       break;
     case 'under_development':
-      status_badge = <span class="badge badge--info">Under development</span>;
+      maturityBadge = <span class="badge badge--info">Under development</span>;
       break;
   }
 
-  let category_badges = props.categories.map((category) => (
+  let categoriesBadges = props.categories.map((category) => (
     <span class="badge badge--primary">{category}</span>
   ));
 
@@ -71,9 +71,9 @@ function SolutionCard(props) {
         </div>
         <div class="card__body">
           <p>{props.description}</p>
-          {category_badges}
+          {categoriesBadges}
           <br />
-          {status_badge}
+          {maturityBadge}
         </div>
         <div class="card__footer">
           <a href={docLink}>
@@ -93,7 +93,7 @@ function SolutionsCards() {
       identifier={solution.identifier}
       fullName={solution.full_name}
       description={solution.description}
-      status={solution.status}
+      maturity={solution.maturity}
       categories={solution.categories}
     />
   ));
