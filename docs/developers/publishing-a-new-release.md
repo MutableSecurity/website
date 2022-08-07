@@ -12,13 +12,13 @@ sidebar_position: 9
     ```
     poetry config repositories.test-pypi https://test.pypi.org/legacy/
     poetry config pypi-token.test-pypi <testpypi_token>
-    poetry publish --build --dry-run --username mutablesecurity --repository testpypi
-    poetry publish --build --username mutablesecurity --repository testpypi
+    poetry publish --build --dry-run --username mutablesecurity --repository test-pypi
+    poetry publish --build --username mutablesecurity --repository test-pypi
     ```
 
 5. Install MutableSecurity in a test environment by running `pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple mutablesecurity`.
 6. Test the functionalities introduced by the release.
-7. Follow the steps 4-8 from [Using Git and GitHub to Contribute](using-git-and-github-to-contribute.md).
+7. Follow the steps 5-9 from [Using Git and GitHub to Contribute](using-git-and-github-to-contribute.md).
 8. Once you ensure that all is properly functioning, upload to PyPi by using the command below, where `<pypi_token>` is the PyPi token.
 
     ```
