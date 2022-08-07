@@ -12,7 +12,7 @@ From a development point of view (landing page not included), the project reside
         - Configuration files for services (for example, DeepSource via `.deepsource.toml`)
     - Issues tracking
     - Workflows for:
-        - After each commit or pull request on `main` branch, running unit tests and posting coverage information to Coveralls
+        - Running unit tests and posting coverage information to Coveralls, but only after each commit or pull request on `main` branch
         - Performing various automatic update actions (for example, for updating the solutions' table in `README.md`)
 - **PyPi** for:
     - Hosting our Python 3 package, `mutablesecurity`
@@ -20,7 +20,7 @@ From a development point of view (landing page not included), the project reside
 - **DeepSource** for statically scanning the Python codebase for vulnerabilities, style and documentation inconsistencies
 - **Snyk** for vulnerability and dependency scanning
 - **Coveralls** for storing coverage information
-- **Dependabot** for automatically updating (process named bumping) Python dependencies.
+- **Dependabot** for automatically updating (process named bumping) Python dependencies
 
 In terms of production dependencies, the most used packages are:
 - **pyinfra** for connecting to hosts and executing commands

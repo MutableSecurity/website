@@ -8,7 +8,7 @@ This introductory reading is intended to serve as a first step toward using or c
 
 ## Information
 
-- [MutableSecurity](MutableSecurity.md)
-- [Orchestration Architecture](Orchestration%20Architecture.md)
-- [Cybersecurity Solutions](Cybersecurity%20Solutions.md)
-- [Indexes](Indexes.md)
+- [MutableSecurity](mutablesecurity.md)
+- [Orchestration Architecture](orchestration-architecture.md)
+- [Cybersecurity Solutions](cybersecurity-solutions.md)
+- [Indexes](indexes.md)

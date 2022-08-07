@@ -7,7 +7,7 @@ sidebar_position: 5
 ## Maturity Levels
 
 | Level               | Description                                                                                   |
-|---------------------|-----------------------------------------------------------------------------------------------|
+| ------------------- | --------------------------------------------------------------------------------------------- |
 | `PRODUCTION`        | The solution is developed, tested and integrated in the production package.                   |
 | `REFACTORING`       | The solution was integrated in production, but now suffers changes.                           |
 | `UNDER_DEVELOPMENT` | The solution development is started and in progress.                                          |
@@ -16,7 +16,7 @@ sidebar_position: 5
 ## Solutions Categories
 
 | Category         | Description                             |
-|------------------|-----------------------------------------|
+| ---------------- | --------------------------------------- |
 | `WEB_IDS`        | Web Intrusion Detection System          |
 | `NETWORK_IDPS`   | Network Detection and Prevention System |
 | `WEB_ENCRYPTION` | Encryption for Web Applications         |
@@ -25,18 +25,18 @@ sidebar_position: 5
 ## Test Types
 
 | Type          | Verified Aspect                                                            | Example                                                |
-|---------------|----------------------------------------------------------------------------|--------------------------------------------------------|
-| `REQUIREMENT` | The system is compatible.                                                  | The operating system is Ubuntu.                        | 
+| ------------- | -------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `REQUIREMENT` | The system is compatible.                                                  | The operating system is Ubuntu.                        |
 | `PRESENCE`    | The solution is installed on the machine.                                  | Suricata's executable is present.                      |
 | `OPERATIONAL` | The solution is running (with or without achieving its security purposes). | Suricata's process is running.                         |
 | `SECURITY`    | The solution achieves its security-related goals.                          | The firewall detects artificial malicious traffic.     |
-| `INTEGRATION` | The solution integrates with other components of the infrastructure.       | The threat hunting agent communicate with its manager. |  
+| `INTEGRATION` | The solution integrates with other components of the infrastructure.       | The threat hunting agent communicate with its manager. |
 
 ## Information Properties
 
 | Property                        | Description                                                                                                                                                             | Another Required Properties  | Example                                                       |
-|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------|---------------------------------------------------------------|
-| `CONFIGURATION`                 | Information on which depends the functioning of the solution                                                                                                            |                              | Quarantine folder for an antivirus                            |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------- |
+| `CONFIGURATION`                 | Information required to make a solution operable                                                                                                                        |                              | Quarantine folder for an antivirus                            |
 | `METRIC`                        | Read-only information that is exposed by the solution, describing its functioning                                                                                       | `READ_ONLY`                  | Number of blocked malware by an antivirus                     |
 | `MANDATORY`                     | Required to be set during the whole functioning of the solution                                                                                                         | `CONFIGURATION`              | Email where an XDR sends its critical alerts                  |
 | `OPTIONAL`                      | Optional to set                                                                                                                                                         | `CONFIGURATION`              | Additional threat hunting sources for an IDS                  |

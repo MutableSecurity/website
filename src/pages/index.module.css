@@ -1,17 +1,134 @@
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * Locally scoped CSS
  */
 
+/* Banner */
+
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
   position: relative;
+  padding: 5rem 0 10rem 0;
+  text-align: center;
   overflow: hidden;
+  background: linear-gradient(298deg, #3f37c9, #322ca0, #560bad);
+  background-size: 800% 800%;
+  -webkit-animation: gradient 16s ease infinite;
+  -moz-animation: gradient 16s ease infinite;
+  animation: gradient 16s ease infinite;
+}
+
+.heroBanner h1 {
+  margin: 0 5%;
+  font-weight: 900;
+  font-size: 3.9rem;
+  text-align: left;
+}
+
+.heroBanner h2 {
+  font-weight: 300;
+  font-size: 1.5rem;
+  text-align: left;
+  margin: 3rem 5%;
+  text-align: justify;
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 2rem;
   }
+}
+
+@-webkit-keyframes gradient {
+  0% {
+    background-position: 0% 77%;
+  }
+  50% {
+    background-position: 100% 24%;
+  }
+  100% {
+    background-position: 0% 77%;
+  }
+}
+@-moz-keyframes gradient {
+  0% {
+    background-position: 0% 77%;
+  }
+  50% {
+    background-position: 100% 24%;
+  }
+  100% {
+    background-position: 0% 77%;
+  }
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 77%;
+  }
+  50% {
+    background-position: 100% 24%;
+  }
+  100% {
+    background-position: 0% 77%;
+  }
+}
+
+/* Terminal demo */
+
+.terminal img {
+  margin-top: -13rem;
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 996px) {
+  .terminal img {
+    margin-top: 5rem;
+  }
+}
+
+/* Supported solutions section */
+
+.solutions h1 {
+  width: 100%;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.solutionCard {
+  box-shadow: none;
+}
+
+.solutionCard div:nth-child(1) {
+  text-align: center;
+}
+
+.solutionCard p {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: justify;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.solutionCard div:nth-child(2) {
+  margin-bottom: var(--ifm-paragraph-margin-bottom);
+}
+
+.solutionCard a:hover {
+  text-decoration: none;
+}
+
+/* Contact form */
+
+.form h1 {
+  width: 100%;
+  text-align: center;
+  margin-top: 5rem;
+}
+
+.form h2 {
+  font-weight: 300;
+  text-align: justify;
+  margin-bottom: 2rem;
 }

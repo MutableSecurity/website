@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Selecting the Deployment Style
+# Selecting the Deployment Method
 
 ## `mutablesecurity --remote <username>@<hostname>:<port>`
 
@@ -15,6 +15,6 @@ sidebar_position: 4
 - Remote deployment to multiple target hosts
 - Each line in the file name `<list_filename>` respects the `<username>@<hostname>:<port>` format, as in the [single-host deployment](#mutablesecurity---remote-usernamehostnameport).
 
-## Otherwise
+## Without Any Special Argument
 
 - Local deployment

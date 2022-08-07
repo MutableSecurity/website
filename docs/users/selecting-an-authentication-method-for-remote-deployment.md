@@ -10,6 +10,6 @@ This selection is required only when a form of remote deployment is performed.
 
 - SSH with a private key
 
-## Otherwise
+## Without Any Special Argument
 
-- SSH with a password requested in a prompt, before running the effective deployment
+- SSH with a password requested at runtime, before executing the effective deployment
