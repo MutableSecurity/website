@@ -24,13 +24,13 @@ sidebar_position: 5
 
 ## Test Types
 
-| Type          | Verified Aspect                                                            | Example                                                |
-| ------------- | -------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `REQUIREMENT` | The system is compatible.                                                  | The operating system is Ubuntu.                        |
-| `PRESENCE`    | The solution is installed on the machine.                                  | Suricata's executable is present.                      |
-| `OPERATIONAL` | The solution is running (with or without achieving its security purposes). | Suricata's process is running.                         |
-| `SECURITY`    | The solution achieves its security-related goals.                          | The firewall detects artificial malicious traffic.     |
-| `INTEGRATION` | The solution integrates with other components of the infrastructure.       | The threat hunting agent communicate with its manager. |
+| Type          | Verified Aspect                                                            | Automatic Verifications                                                                  | Example                                                |
+| ------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `REQUIREMENT` | The system is compatible.                                                  | On solution installation, all tests needs to pass.                                       | The operating system is Ubuntu.                        |
+| `PRESENCE`    | The solution is installed on the machine.                                  | On solution installation, all needs to fail. In all other operations, all needs to pass. | Suricata's executable is present.                      |
+| `OPERATIONAL` | The solution is running (with or without achieving its security purposes). |                                                                                          | Suricata's process is running.                         |
+| `SECURITY`    | The solution achieves its security-related goals.                          |                                                                                          | The firewall detects artificial malicious traffic.     |
+| `INTEGRATION` | The solution integrates with other components of the infrastructure.       |                                                                                          | The threat hunting agent communicate with its manager. |
 
 ## Information Properties
 
