@@ -40,6 +40,6 @@ sidebar_position: 6
 9.  Install the recommended extension when the popup appears. If it is not the case, run the command "Extensions: Show Recommended Extensions" to achieve the same.
 10. Create a `.mutablesecurity` file in repository's folder with the content below.
 
-        ```yaml
-        developer_mode: True
-        ```
+    ```yaml
+    developer_mode: True
+    ```
