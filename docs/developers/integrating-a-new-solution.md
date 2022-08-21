@@ -20,7 +20,8 @@ sidebar_position: 8
 5. Create a guide for testing the solution. Follow it along by yourself until the solution module behaves as expected.
 6. Create commits and pull requests on GitHub, attaching the test guide as a comment in the latter.
 7. Send the test guide to another contributor to validate the functioning.
-8. If not validated, change the implementation and go to step 7. Otherwise, merge the pull request from GitHub.
+8. If not validated, change the implementation by creating a separate commit for each change request. After, go to step 7.
+9. If validated, Otherwise, merge the pull request from GitHub.
 
 ## Implementation Principles
 
