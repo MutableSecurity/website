@@ -88,7 +88,7 @@ Inherits `BaseAction` from `mutablesecurity.solutions.base`.
 #### Methods and Members
 
 - **pyinfra deployment**: Defined as a static method decorated with pyinfra's `@deploy`, takes parameters that need to be passed by users when executing this action.
-- **Member `IDENTIFIER`**: Alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
+- **Member `IDENTIFIER`**: Unique alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
 - **Member `DESCRIPTION`**: Grammatically-correct phrase describing the behavior of the action
 - **Member `ACT`**: Reference to the above-mentioned pyinfra deployment
 
@@ -100,7 +100,7 @@ Inherits `BaseInformation` from `mutablesecurity.solutions.base`.
 
 - **pyinfra fact**: Defined as a class inheriting pyinfra's `FactBase`, returns the value of the information as in the remove host
 - **pyinfra deployment**: Defined as a static method decorated with pyinfra's `@deploy`, takes two parameters (for the old information value and the new one) and is executed after the new information value is set inside the class. Its purpose is to set on the remote host the new value. Only if required by the information nature.
-- **Member `IDENTIFIER`**: Alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
+- **Member `IDENTIFIER`**: Unique alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
 - **Member `DESCRIPTION`**: Grammatically-correct description of the information
 - **Member `INFO_TYPE`**: Information type, one of the `DataType` suffixed classes exposed by `mutablesecurity.solutions.base`. Their names are self-explanatory. In addition, classes for single enumerations or lists of enumerations can be defined by inheriting from the `DataType` class as exemplified above:
 
@@ -129,7 +129,7 @@ Inherits `BaseLog` from `mutablesecurity.solutions.base`.
 #### Methods and Members
 
 - **pyinfra fact**: Defined as a class inheriting pyinfra's `FactBase`, returns a string.
-- **Member `IDENTIFIER`**: Alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
+- **Member `IDENTIFIER`**: Unique alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
 - **Member `DESCRIPTION`**: Grammatically-correct phrase describing the log source content
 - **Member `FACT`**: Reference to the above-mentioned pyinfra fact
 
@@ -141,7 +141,7 @@ Inherits `BaseTest` from `mutablesecurity.solutions.base`.
 
 - **pyinfra fact**: Defined as a class inheriting pyinfra's `FactBase`, returns a boolean indicating if the test passed.
 - **pyinfra deployment**: Defined as a static method decorated with pyinfra's `@deploy`, the deployment prepare the environment to be checked by the fact. For example, if the tests checks if a line is present in the log file, then here make the actions that triggers the security solution to write these lines.
-- **Member `IDENTIFIER`**: Alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
+- **Member `IDENTIFIER`**: Unique alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
 - **Member `DESCRIPTION`**: Grammatically-correct phrase describing what the test checks
 - **Member `TEST_TYPE`**: Test type, one of the value from the [Test Types](basics/indexes#test-types) index
 - **Member `TRIGGER`**: Reference to the above-mentioned pyinfra deployment
