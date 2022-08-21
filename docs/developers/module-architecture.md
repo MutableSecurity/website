@@ -85,6 +85,25 @@ Inherits `BaseSolutionException` from `mutablesecurity.solutions.base`. The clas
 
 Inherits `BaseAction` from `mutablesecurity.solutions.base`.
 
+#### Usage in Other Objects
+
+An action can be executed inside a pyinfra deployment by calling its `execute` method. The method is exemplified above.
+
+```python
+class Action(BaseAction):
+    [...]
+
+class Solution(BaseSolution):
+    [...]
+
+    @staticmethod
+    @deploy
+    def _install() -> None:
+        Action.execute()
+
+    [...]
+```
+
 #### Methods and Members
 
 - **pyinfra deployment**: Defined as a static method decorated with pyinfra's `@deploy`, takes parameters that need to be passed by users when executing this action.
@@ -95,6 +114,23 @@ Inherits `BaseAction` from `mutablesecurity.solutions.base`.
 ### Information
 
 Inherits `BaseInformation` from `mutablesecurity.solutions.base`.
+
+#### Usage in Other Objects
+
+An information value can be retrieved inside a pyinfra deployment by calling its `get` method. The method is exemplified above.
+
+```python
+class FirstInformation(BaseInformation):
+    [...]
+
+class SecondInformation(BaseInformation):
+    @staticmethod
+    @deploy
+    def setter(old_value: typing.Any, new_value: typing.Any) -> None:
+        info_value = FirstInformation.get()
+
+    [...]
+```
 
 #### Methods and Members
 
