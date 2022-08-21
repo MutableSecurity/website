@@ -44,6 +44,10 @@ The standard structure of this Python file is the following:
 # pylint: disable=unused-argument
 # pylint: disable=unexpected-keyword-arg
 
+# Exceptions classes definitions
+
+[...]
+
 # Actions classes definitions
 
 [...]
@@ -65,9 +69,17 @@ The standard structure of this Python file is the following:
 [...]
 ```
 
-After providing a module docstring, some pylint warnings are ignored. This ease the integration of new solutions without requiring abundant documentation). Then the classes for actions, information, logs, and tests are defined, followed by the solution class aggregating all the other classes.
+After providing a module docstring, some pylint warnings are ignored. This ease the integration of new solutions without requiring abundant documentation). Then the classes for exceptions, actions, information, logs, and tests are defined, followed by the solution class aggregating all the other classes.
 
 These classes will be described in the following sections without examples. From this point onward, please look also at the implementation of the solution `dummy` to see effective Python code.
+
+### Exceptions
+
+Inherits `BaseSolutionException` from `mutablesecurity.solutions.base`. The class name ends in `Exception`.
+
+#### Methods and Members
+
+- **Docstring**: Error message describing the encountered issue. This is useful, for example, when the execution of the CLI tool fails: the message is automatically printed on screen.
 
 ### Actions
 
