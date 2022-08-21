@@ -17,7 +17,7 @@ sidebar_position: 8
     - Where does the solution generate its logs?
 3. Validate your responses with another contributor.
 4. Implement the module by considering the [principle](#implementation-principles).
-5. Create a guide for testing the solution. Follow it along by yourself until the solution module behaves as expected.
+5. Create a guide for testing the solution. Follow it along by yourself until the solution module behaves as expected. Please consider the [principles](#testing-principles) too.
 6. Create commits and pull requests on GitHub, attaching the test guide as a comment in the latter.
 7. Send the test guide to another contributor to validate the functioning.
 8. If not validated, change the implementation by creating a separate commit for each change request. After, go to step 7.
@@ -55,3 +55,13 @@ Imports can be made from:
 - `mutablesecurity.solutions.common.facts.*` and `mutablesecurity.solutions.common.operations.*` for reusable facts and operations, shared between solutions
 - `pyinfra.facts.*` and `pyinfra.operations.*` for pyinfra facts and operations
 - Other packages from PyPi, which are installed with `poetry install` and useful for your automation.
+
+## Testing Principles
+
+### Logs Checking
+
+MutableSecurity writes its log messages in the Syslog file. To view them while testing your solution, run the command:
+
+```
+tail -f /var/log/messages | grep mutablesecurity
+```
