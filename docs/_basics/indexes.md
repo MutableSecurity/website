@@ -46,3 +46,10 @@ sidebar_position: 5
 | `AUTO_GENERATED_AFTER_INSTALL`  | With a value auto-generated after installation                                                                                                                          | `CONFIGURATION`, `READ_ONLY` | A random password, generated after installing Wazuh           |
 | `READ_ONLY`                     | The value could not be written, only read.                                                                                                                              |                              | Any metric                                                    |
 | `WRITABLE`                      | The value could be written and read.                                                                                                                                    |                              | A server on which an agent reports                            |
+
+## `.mutablesecurity` Keys
+
+| Key                      | Description                                                   | Possible Values                                       |
+|--------------------------|---------------------------------------------------------------|-------------------------------------------------------|
+| `developer_mode`         | Indicates if the person using MutableSecurity is a developer. | `False` for users (implicit) or `True` for developers | 
+| `application_monitoring` | Indicates if the application monitoring is enabled.           | `True` if enabled (implicit), `False` otherwise       |
