@@ -6,7 +6,7 @@ sidebar_position: 7
 
 1. Open an issue, take over one you are assigned to, or assign yourself to one that hasn't been processed yet.
 2. Create a branch named `issue-<issue_numer>`, where `<issue_numer>` is the identifier of the issue.
-3. Fix a bug or implement a new feature. In the second scenario, implement new unit tests for validating the changes. These can be locally run with `poe covtest`. The coverage needs to remain above 90% and should decrease with maximum 1% comparative to the last commit.
+3. Fix a bug or implement a new feature. In the second scenario, implement new unit tests for validating the changes. These can be locally run with `MUTABLESECURITY_TESTS_PASS=<password> poe covtest`, where `<password>` is the password of the local system. The coverage needs to remain above 90% and should decrease with maximum 1% comparative to the last commit.
 4. Check if the files are formatted correctly with `poe lint`.
 5. Commit the changed files by respecting the commit format.
 6. Create a pull request from your branch to `main` by respecting the corresponding format.
