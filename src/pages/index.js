@@ -4,7 +4,6 @@ import Layout from '@theme/Layout';
 
 import styles from './index.module.css';
 import solutions from '@site/static/data/solutions.json';
-import NotFound from '@theme/NotFound';
 
 function HeroBanner() {
   return (
@@ -110,16 +109,34 @@ function ContactSection() {
       <h2>
         {' '}
         Do you require solutions to defend your infrastructure against attackers
-        but lack the time, budget, or personnel to do so? Or do you simply want
-        to provide feedback? Drop us a line using the form below or send us an
-        email at <code>hello@mutablesecurity.io</code>!{' '}
+        but lack the time, budget, or personnel to do so?{' '}
       </h2>
-      <TallyForm />
+      <TallySolutionsForm />
+      <h2>
+        {' '}
+        Or do you simply want to provide feedback? Drop us a line using the form
+        below or send us an email at <code>hello@mutablesecurity.io</code>!{' '}
+      </h2>
+      <TallyContactForm />
     </div>
   );
 }
 
-function TallyForm() {
+function TallySolutionsForm() {
+  return (
+    <iframe
+      src="https://tally.so/embed/wMe2G0?alignLeft=1&hideTitle=1&transparentBackground=1"
+      width="100%"
+      height="400"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0"
+      title="null"
+    ></iframe>
+  );
+}
+
+function TallyContactForm() {
   return (
     <iframe
       src="https://tally.so/embed/wA7j4y?alignLeft=1&hideTitle=1&transparentBackground=1"
