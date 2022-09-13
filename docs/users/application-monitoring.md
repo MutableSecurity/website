@@ -40,7 +40,7 @@ In addition, for each crash, Sentry reports:
 
 ## Opting Out
 
-If you considered that the data collection approach described above is too intrusive, you can disable the application monitoring in MutableSecurity by creating a `.mutablesecurity` file in the working directory, with the content above:
+If you considered that the data collection approach described above is too intrusive, you can disable the application monitoring in MutableSecurity by creating a `.mutablesecurity` file in the working directory, with the content below:
 
 ```yaml
 application_monitoring: False
