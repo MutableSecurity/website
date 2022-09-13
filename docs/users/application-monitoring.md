@@ -19,18 +19,24 @@ If you want to see the code implementing them, you can check the `monitoring` mo
 ## Collected Data
 
 The data that is reported with the usage monitoring module is composed of:
-- Managed security solution;
-- Operation;
-- A boolean indicating if you are a developer;
-- The operating system;
-- Version of Python interpreter;
-- Version of MutableSecurity; and
+- Managed security solution
+- Operation
+- A boolean indicating if you are a developer
+- The operating system
+- Version of Python interpreter
+- Version of MutableSecurity
 - Timezone.
 
+![Stored data](/images/docs/application-monitoring/firebase.png)
+
 In addition, for each crash, Sentry reports:
-- Stack trace;
-- Used command; and
+- Stack trace
+- Used command
 - Version of Python interpreter.
+
+![Sentry stacktrace](/images/docs/application-monitoring/sentry-stacktrace.png)
+
+![Sentry details about runtime](/images/docs/application-monitoring/sentry-runtime.png)
 
 ## Opting Out
 
