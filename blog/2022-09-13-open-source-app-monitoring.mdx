@@ -1,0 +1,98 @@
+---
+slug: open-source-app-monitoring
+title: 'What Gets Measured Gets Improved: An Approach to Application Monitoring for Open Source Projects'
+authors: iosifache
+tags: [monitoring, crash-reporting, open-source, python, gcp, firebase, sentry]
+---
+
+import Gist from 'react-gist';
+
+This blog post will explain the approach we used in MutableSecurity to add **minimal, non-intrusive application monitoring**, for both crash reporting and usage monitoring. Despite the examples from our codebase, that is mostly Python-based, the principles used may be applied with ease to other programming languages.
+
+## Why Metrics are Important
+
+The quote “_What gets measured gets improved_” is mostly used to highlight the importance of having **quantitative measures of performance about a system**. [Whether it was said by the influential management consultant Peter Drunker back in the previous century](https://nesslabs.com/what-gets-measured-gets-managed), there are some situations in which these numeric metrics help us to better understand a system's functioning. In the software field, examples may be finding out how many users you have, how they use your program and how the product behaves regarding performance.
+
+In addition, there may be another piece of the puzzle left: the **survivorship bias**. Simply said, history is written by the victorious. Applied to the software industry, we can say that we tend to judge the overall experience of our products by interacting with the users or customers (via feedback forms, interviews, etc.) that are active today, not those who abandoned the journey due to encountered issues (for example, bad UX practices, bugs and errors). But we may learn about the latter category by implementing **passive feedback loops**.
+
+## Feedback Loops
+
+For open source projects, we can have multiple places from which we can learn from and about our users.
+
+There are **active** forms, in which the user can deliberately contact the project's developers to share an impression, request a feature, or report a security problem. They can create GitHub issues or, more privately, contact us through in-app forms or emailing to our addresses.
+
+On the other hand, we have **passive** data collection. The user interacts as normal with the application, but he deliberately allows the collection of usage data: which UI elements he interacted with, difficulty of finding out a desired page and so on.
+
+We can consider the app stores downloads too, but they are too opaque. For example, we could not know if the software downloaded through GitHub or PyPi (a Python package repository) was actually run. Or if the user only downloaded it, but found it hard to understand the workflow. To consolidate this argument, think about the Python ecosystem: bots (like [Snyk's ones](https://snyk.io/product/open-source-security-management/)) are scanning the published packages in order to find vulnerabilities.
+
+## The Privacy Dilemma
+
+But there's the catch 22: as software developers, we need to think profoundly about the **privacy of our users**. We can't collect all possible data. In the past years, due to many privacy issues events such as keylogging social media platforms and huge data leaks, people got more conscious about what data are collected by companies and how they are used afterwards. It can be said, for sure, that the **trust** of users was damaged.
+
+## Our Approach for Application Monitoring
+
+To give a bit of context, we created a **platform to automatically deploy and manage cybersecurity solutions**. At the first step, we published on GitHub a [CLI tool](https://github.com/MutableSecurity/mutablesecurity) to achieve these goals. The hardest part, now, is to determine what happens next after the download from PyPi is complete. Does the user deploy a specific solution? Or does he encounter an error and uses the software only once?
+
+We reached a solution to these issues. We implemented a **minimal, non-intrusive application monitoring system** for MutableSecurity:
+
+1. Collecting usage data with Firebase Realtime Database and a serverless function, deployed on Google's cloud (Google Cloud Platform or simply GCP)
+2. Integrating an error tracking platform, Sentry
+3. Giving the user a method to opt out
+4. Documenting the whole monitoring process.
+
+The following sections will describe each of them with a bird's eye view. All of them are exemplified with Python snippets from our codebase and screenshots.
+
+### Usage Monitoring
+
+1. **Collect the data**: We implemented a base abstract class named `Metric`. Each collected metric should inherit it and overwrite the `IDENTIFIER` member (that defines the key used to identify the information when placed in Firebase) and the `_get` method (that extracts the information from the current host). When a new metric is defined, the `__init_subclass__` method is used to automatically register it (by storing a reference in a list) in the `DataCollector` class, that deals with collecting all the metrics values.
+
+<Gist id="25a13e51ea6b8cb43d1b49fc1410fa92" />
+
+2. **Send the collected data**: The `Monitor` class is then used to retrieve all the metric values and `POST` them to our serverless function.
+
+<Gist id="163d97166009ce8253fadb31c79797db" />
+
+3. **Retrieve the data and store it inside Firebase**: The serverless function from Google Cloud Platform is configured to run in a Python environment, with a secret that is used to store the service account's private key. It only takes the data from the HTTP request and stores it inside Firebase Realtime Database with the `pyrebase4` package.
+
+<Gist id="240444092f636bca801c4b2e563777a3" />
+
+4. **Check Firebase for the collected usage data**: In our case, the data looks similar to the screenshot below.
+
+   ![Data stored in Firebase](/images/blog/2022-09-13-open-source-app-monitoring/firebase.png)
+
+### Crash Reporting
+
+1. **Add the SDK**: After setting up an account, install the Sentry SDK for Python, `sentry_sdk`.
+2. **Initialize the SDK**: In the source code, call the `init` method of Sentry's SDK.
+
+<Gist id="afed7960d453c05a15c8f4ef89091c58" />
+
+3. **Trigger a crash**: Just place a division by zero (for example, `1/0`) operation between some lines of code that are certainly executed. Be sure to remove it afterwards.
+4. **Find the crash in Sentry's dashboard**: Sentry should list the triggered error. Alongside it, there are further details such as stack traces and runtime information.
+
+   ![Sentry crash](/images/blog/2022-09-13-open-source-app-monitoring/sentry-error.png)
+
+   ![Sentry stacktrace](/images/blog/2022-09-13-open-source-app-monitoring/sentry-stacktrace.png)
+
+### Opting Out
+
+Implements a logic to let the user opt out of the monitoring data. This can be achieved by adding a new aspect in the configuration. In MutableSecurity, we skip the logic presented in the [Usage Monitoring](#usage-monitoring) section if the user sets a field in the configuration file.
+
+<Gist id="c1662aae6cdf0a30997ca4978369c37f" />
+
+### Be Transparent Regarding the Monitoring
+
+If you have read everything until this point, you are conscious about the benefits some data may have. Namely, **to learn more about the users you want to help with your software**. As the software user - developer relationship is one of a partnership, the main principle is trust, and it needs to be built and maintained. Also, it needs to be transparent about:
+
+1. Why you collect metrics at all?
+2. What metrics you collect?
+3. If a user wants to see the implementation, what files from your codebase are relevant?
+4. How can you opt out of sending any usage/crash data?
+
+These questions may be answered with a page of your documentation or as a separate view inside your production software. You can see examples on [Homebrew](https://docs.brew.sh/Analytics)'s and [MutableSecurity](/docs/users/application-monitoring)'s websites.
+
+## Conclusions
+
+Having feedback loops is important for a software developer. The data may shift the focus from some functionality considered relevant to others that are actually used in the wild. This blog post explained the reasoning behind collecting data, some handy principles to keep in mind, and a Python implementation we developed for MutableSecurity. For further information about the development in the open source community (including metrics), I recommend following the GitHub's articles on [opensource.guide](https://opensource.guide/).
+
+Until next time!
