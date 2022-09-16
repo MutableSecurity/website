@@ -20,6 +20,10 @@ jobs:
         run: rm -rf docs/users/modules/*.md
       - name: Copy the documentation
         run: mv /tmp/mutablesecurity/others/spec_sheets_generation_script/exports/*.md docs/users/modules
+      - name: Remove the logos
+        run: rm -rf static/images/solutions/*.webp
+      - name: Copy the logos
+        run: mv /tmp/mutablesecurity/others/readme_images/solutions/*.webp static/images/solutions
       - name: Create a Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
