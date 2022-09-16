@@ -12,13 +12,13 @@ sidebar_position: 9
     nvm use 16.16.0
     ```
 
-3. Install all dependencies inside the website directory
+3. Install all dependencies inside the website directory:
    
    ```
     npm install
     ```
 
-4. Start the development server
+4. Start the development server:
 
     ```
     npx docusaurus start
