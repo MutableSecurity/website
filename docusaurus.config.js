@@ -80,6 +80,12 @@ const config = {
             position: 'left'
           },
           {
+            href: 'https://dash.mutablesecurity.io',
+            label: 'Dash',
+            className: 'dash-link',
+            position: 'left'
+          },
+          {
             href: 'https://github.com/MutableSecurity',
             position: 'right',
             className: 'navbar-icon github',
@@ -132,6 +138,10 @@ const config = {
               {
                 label: 'Blog',
                 to: '/blog/'
+              },
+              {
+                label: 'Dash',
+                href: 'https://dash.mutablesecurity.io'
               }
             ]
           },

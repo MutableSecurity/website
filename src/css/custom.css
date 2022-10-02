@@ -34,6 +34,14 @@
   opacity: 0.6;
 }
 
+.dash-link {
+  color: var(--ifm-color-primary);
+}
+
+.dash-link svg {
+  display: none;
+}
+
 /* Footer */
 
 .footer--dark {
