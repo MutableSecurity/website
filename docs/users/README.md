@@ -15,6 +15,6 @@ There is one small remark we would like to make: the arguments from these guides
 ## Guides
 
 - [Installing the Package](installing-the-package.md)
-- [Selecting the Deployment Method](selecting-the-deployment-method.md))
+- [Selecting the Deployment Method](selecting-the-deployment-method.md)
 - [Selecting an Authentication Method for Remote Deployment](selecting-an-authentication-method-for-remote-deployment.md)
 - [Installing and Managing Solutions](installing-and-managing-solutions.md)
