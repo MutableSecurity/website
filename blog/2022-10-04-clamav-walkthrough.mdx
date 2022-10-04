@@ -1,0 +1,318 @@
+---
+slug: clamav-walkthrough
+title: 'ClamAV: Defending the Linux Filesystem'
+authors: alin
+tags: [antimalware, clamav, malware, linux, cisco-talos]
+---
+
+Linux has been considered one of the most secure OS and, along the history, there have been a minimal number of attacks. Quite recently there has been a change, for instance a new stealthy malware targeting Linux, called [Shikitega](https://cybersecurity.att.com/blogs/labs-research/shikitega-new-stealthy-malware-targeting-linux). There are a few key features to this malware, such as using Metasploit's Mettle to maximize the control of infected machines, exploiting vulnerabilities to execute crypto miners, and using polymorphic encoder to make it difficult for antivirus engines to detect it.
+
+This being said, we will explain in this blog post how to install and configure an [open-source anti-malware software for Linux](https://en.wikipedia.org/wiki/Comparison_of_antivirus_software#Linux), ClamAV. It is developed by [Cisco Talos](https://www.talosintelligence.com/), one of the largest commercial threat intelligence teams in the world. By having the signatures database updated by Talos, it is able to detect a multitude of threats and offer a quite decent security solution.
+
+## Requirements
+
+By having, at least, Python 3.9 installed, you can simply type `pip install mutablesecurity`, and you will have access to our open-source solution. There you will be able to use a few solutions, including ClamAV. Make sure you are not in the root directory before continuing with the next steps.
+
+## Installing ClamAV
+
+Now that you have `mutablesecurity` installed on your machine, the next step is configuring ClamAV.
+
+Simply run `mutablesecurity`. You will be able to see a detailed guide about how to use the solution, but for now, this guide will help and walk you through it.
+
+```bash
+                  _        _     _      __                      _ _
+      /\/\  _   _| |_ __ _| |__ | | ___/ _\ ___  ___ _   _ _ __(_| |_ _   _
+     /    \| | | | __/ _` | '_ \| |/ _ \ \ / _ \/ __| | | | '__| | __| | | |
+    / /\/\ | |_| | || (_| | |_) | |  ___\ |  __| (__| |_| | |  | | |_| |_| |
+    \/    \/\__,_|\__\__,_|_.__/|_|\___\__/\___|\___|\__,_|_|  |_|\__|\__, |
+         Seamless deployment and management of cybersecurity solutions |___/
+
+Usage: mutablesecurity [OPTIONS]
+
+Options:
+  -r, --remote TEXT               Connect to remote in the
+                                  USERNAME@HOSTNAME:PORT format. If ommited
+                                  (besides the remote list parameter), the
+                                  operations are executed locally.
+  -l, --remote-list FILE          Connect to a series of remote hosts
+                                  specified in a file, in the
+                                  USERNAME@HOSTNAME:PORT format. If ommited
+                                  (besides the remote host parameter), the
+                                  operations are executed locally.
+  -k, --key FILE                  SSH key to use when connecting to the remote
+                                  host
+  -s, --solution [CLAMAV|LETS_ENCRYPT|TELER|FAIL2BAN]
+                                  Solution to manage
+  -o, --operation [INIT|INSTALL|GET_INFORMATION|SET_INFORMATION|TEST|GET_LOGS|UPDATE|UNINSTALL|EXECUTE]
+                                  Operation to perform
+  -i, --identifier TEXT           Information to modify. Available only with a
+                                  value (--value)
+  -v, --value TEXT                New value of the information. Available only
+                                  with an identifier (--identifier).
+  -a, --arguments TEXT            Arguments to be passed to an action, in the
+                                  "key=value" format
+  --verbose                       Increase in the logging volume
+  --feedback                      Show feedback form
+  -h, --help                      Useful information for using MutableSecurity
+                                  or about a solution
+```
+
+Quick observation here. The code blocks you are about to see are from the current version, there will be improvements and more solutions added as the times goes by.
+
+Type `mutablesecurity -s CLAMAV`. There you will be able to see all the information you need to know about ClamAV, furthermore, `-s` means solution.
+
+```bash
+$ mutablesecurity -s CLAMAV
+                  _        _     _      __                      _ _
+      /\/\  _   _| |_ __ _| |__ | | ___/ _\ ___  ___ _   _ _ __(_| |_ _   _
+     /    \| | | | __/ _` | '_ \| |/ _ \ \ / _ \/ __| | | | '__| | __| | | |
+    / /\/\ | |_| | || (_| | |_) | |  ___\ |  __| (__| |_| | |  | | |_| |_| |
+    \/    \/\__,_|\__\__,_|_.__/|_|\___\__/\___|\___|\__,_|_|  |_|\__|\__, |
+         Seamless deployment and management of cybersecurity solutions |___/
+
+
+Full name: ClamAV
+
+Categories:
+- Antimalware
+- Host Protection
+
+Description:
+Clam AntiVirus (ClamAV) is a free software, cross-platfom antimalware toolkit able to detect many types of malware, including viruses. ClamAV includes a
+command-line scanner, automatic database updater, and a scalable multi-threaded daemon running on an anti-virus engine from a shared library. FreshClam is a
+virus database update tool for ClamAV. ClamAV Daemon checks periodically for virus database definition updates, downloads, installs them, and notifies clamd to
+refresh it's in-memory virus database cache.
+
+References:
+- https://www.clamav.net/
+- https://github.com/Cisco-Talos/clamav
+- https://docs.clamav.net/Introduction.html
+
+[...]
+```
+
+Before you can install the solution, there is one more step you need to do, and that is to initialize the configuration that will be used for installation:
+
+```bash
+$ mutablesecurity -s CLAMAV -o INIT
+$ cat root@localhost_clamav.yaml
+quarantine_location: /opt/mutablesecurity/clamav/quarantine/
+scan_day_of_month: '*'
+scan_day_of_week: MON
+scan_hour: '0'
+scan_location: /
+scan_log_location: /opt/mutablesecurity/clamav/logs/logs.txt
+scan_minute: '0'
+scan_month: '*'
+```
+
+The first command will create a configuration file on the local machine. After running the command, the file in local directory (called, in our case, `root@localhost_clamav.yaml`) should be looking like in the previous code block.
+
+In contrast, if you want to deploy ClamAV on a target host, or multiple target hosts, please refer to the [documentation](https://mutablesecurity.io/docs/users/selecting-the-deployment-method/) on our website or by typing `mutablesecurity`.
+
+Each of them can take a special value, except `quarantine_location` and `scan_log_location`. They control how the crontab will act. Please look into the [documentation](https://mutablesecurity.io/docs/users/modules/clamav/), or simply type `mutablesecurity -s CLAMAV` for all the information regarding the values. Also, after the `INSTALL`, it can be changed using `SET_INFORMATION`.
+
+Since the scan will take place each Monday at 12:00 AM, you might want to change it. An option would be to make it daily at 5:00 AM. To do that, use `vim` or any editor you prefer and change `scan_day_of_week` to `"*"` and `scan_hour` to `"5"`. That should suffice.
+
+That being said, you can keep the default configuration for now and just run `mutablesecurity -s CLAMAV -o INSTALL` to install the solution. Be aware, it will take a bit of time.
+
+## Using the Newly Installed ClamAV
+
+### Testing
+
+At this point, the solution is installed. To see if the solution is fully operational, run:
+
+```bash
+$ mutablesecurity -s CLAMAV -o TEST.
+❓ Password:
+💻 Connection root@localhost
+✅ The operation was successfully executed!
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Identifier      ┃                                       Description                                       ┃    Type     ┃ Value ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━┩
+│ active_database │                 Checks if the ClamAV virus database service is active.                  │ OPERATIONAL │ True  │
+├─────────────────┼─────────────────────────────────────────────────────────────────────────────────────────┼─────────────┼───────┤
+│ eicar_detection │ Creates a EICAR-STANDARD-ANTIVIRUS-TEST-FILE and checks if ClamAV is able to detect it. │  SECURITY   │ True  │
+├─────────────────┼─────────────────────────────────────────────────────────────────────────────────────────┼─────────────┼───────┤
+│ internet_access │                           Checks if host has Internet access.                           │ REQUIREMENT │ True  │
+├─────────────────┼─────────────────────────────────────────────────────────────────────────────────────────┼─────────────┼───────┤
+│ ubuntu          │                        Checks if the operating system is Ubuntu.                        │ REQUIREMENT │ True  │
+└─────────────────┴─────────────────────────────────────────────────────────────────────────────────────────┴─────────────┴───────┘
+```
+
+### Manipulating the Configuration
+
+To see all the information about the installed solution, run the `GET_INFORMATION` operation:
+
+```bash
+$ mutablesecurity -s CLAMAV -o GET_INFORMATION
+❓ Password:
+💻 Connection root@localhost
+✅ The operation was successfully executed!
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Identifier                  ┃         Description         ┃  Type   ┃          Properties          ┃        Default Value        ┃            Value             ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ daily_infected_files_detec… │  Total number of infected   │ INTEGER │      METRIC, READ_ONLY       │                             │              2               │
+│                             │    files detected today     │         │                              │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ quarantine_location         │   The location where the    │ STRING  │          MANDATORY,          │ /opt/mutablesecurity/clama… │ /opt/mutablesecurity/clamav… │
+│                             │   infected files will be    │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │     moved to after the      │         │        CONFIGURATION,        │                             │                              │
+│                             │  on-demand/crontab scans.   │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+│                             │ Select a directory in which │         │                              │                             │                              │
+│                             │  the quarantine will take   │         │                              │                             │                              │
+│                             │ place if you would like to  │         │                              │                             │                              │
+│                             │           change.           │         │                              │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ scan_day_of_month           │   The day (1-31, or * for   │ STRING  │          OPTIONAL,           │              *              │              *               │
+│                             │ any) of the month when the  │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │   crontab scan will take    │         │        CONFIGURATION,        │                             │                              │
+│                             │            place            │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ scan_day_of_week            │  The day (0-6, SUN-SAT, 7   │ STRING  │          OPTIONAL,           │             MON             │             MON              │
+│                             │ for Sunday or * for any) of │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │  the week when the crontab  │         │        CONFIGURATION,        │                             │                              │
+│                             │    scan will take place     │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ scan_hour                   │  The hour (0-23, or * for   │ STRING  │          OPTIONAL,           │              0              │              0               │
+│                             │ any) when the crontab scan  │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │       will take place       │         │        CONFIGURATION,        │                             │                              │
+│                             │                             │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ scan_location               │   The location where the    │ STRING  │          MANDATORY,          │              /              │              /               │
+│                             │   on-demand/crontab scans   │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │  will take place.Select a   │         │        CONFIGURATION,        │                             │                              │
+│                             │ different directory if you  │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+│                             │    would like to change.    │         │                              │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ scan_log_location           │     The location of the     │ STRING  │          MANDATORY,          │ /opt/mutablesecurity/clama… │ /opt/mutablesecurity/clamav… │
+│                             │  generated logs after the   │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │      on-demand/crontab      │         │        CONFIGURATION,        │                             │                              │
+│                             │ scans.Chose a file in which │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+│                             │ the logs will be stored if  │         │                              │                             │                              │
+│                             │  you would like to change.  │         │                              │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ scan_minute                 │ The minute (0-59, or * for  │ STRING  │          OPTIONAL,           │              0              │              0               │
+│                             │ any) when the crontab scan  │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │       will take place       │         │        CONFIGURATION,        │                             │                              │
+│                             │                             │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ scan_month                  │  The month (1-12, JAN-DEC,  │ STRING  │          OPTIONAL,           │              *              │              *               │
+│                             │   or * for any) when the    │         │     WITH_DEFAULT_VALUE,      │                             │                              │
+│                             │   crontab scan will take    │         │        CONFIGURATION,        │                             │                              │
+│                             │            place            │         │   NON_DEDUCTIBLE, WRITABLE   │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ total_infected_files_detec… │  Total number of infected   │ INTEGER │      METRIC, READ_ONLY       │                             │              2               │
+│                             │   files detected overall    │         │                              │                             │                              │
+├─────────────────────────────┼─────────────────────────────┼─────────┼──────────────────────────────┼─────────────────────────────┼──────────────────────────────┤
+│ version                     │      Installed version      │ STRING  │      METRIC, READ_ONLY       │                             │ 0.103.6+dfsg-0ubuntu0.22.04… │
+└─────────────────────────────┴─────────────────────────────┴─────────┴──────────────────────────────┴─────────────────────────────┴──────────────────────────────┘
+```
+
+As earlier said, you can change the values of the table above (including crontabs) from the CLI, without using any text editor. An example is to change the `scan_day_of_week` to `"*"`, in order to scan every day at 12:00 AM. To do that, use `SET_INFORMATION`:
+
+```bash
+$ mutablesecurity -s CLAMAV -o SET_INFORMATION -i scan_day_of_week -v "*”
+```
+
+`-i` is the information identifier (the first column) parameter, and `-v` represents the parameter to change the old value (the last column) with a new one.
+
+By using the `GET_INFORMATION` operation, we can see that the value is changed:
+
+```bash
+[...]
+├───────────────────────────────┼─────────────────────────────────┼─────────┼─────────────────────────────────┼─────────────────────────────────┼─────────────────────────────────┤
+│ scan_day_of_week              │  The day (0-6, SUN-SAT, 7 for   │ STRING  │  OPTIONAL, WITH_DEFAULT_VALUE,  │               MON               │                *                │
+│                               │   Sunday or * for any) of the   │         │ CONFIGURATION, NON_DEDUCTIBLE,  │                                 │                                 │
+│                               │ week when the crontab scan will │         │            WRITABLE             │                                 │                                 │
+│                               │           take place            │         │                                 │                                 │                                 │
+├───────────────────────────────┼─────────────────────────────────┼─────────┼─────────────────────────────────┼─────────────────────────────────┼─────────────────────────────────┤
+[...]
+```
+
+### Viewing Logs
+
+There are also `logs`. To see all the logs generated by ClamAV, Freshclam, and the on-demand scans, you can type:
+
+```bash
+mutablesecurity -s CLAMAV -o GET_LOGS -i logs
+```
+
+Keep in mind that it contains all logs, and you can scroll down to see everything, from configuration to identified infected files, or when the scans took place.
+
+```bash
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Identifier                              ┃                                                                 logs                                                                  ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Description                             │                                              The logs generated by ClamAV and FreshClam                                               │
+└─────────────────────────────────────────┴───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+[...]
+
+----------- SCAN SUMMARY -----------
+Known viruses: 8638130
+Engine version: 0.103.6
+Scanned directories: 1
+Scanned files: 1
+Infected files: 1
+Data scanned: 0.00 MB
+Data read: 0.00 MB (ratio 0.00:1)
+Time: 26.547 sec (0 m 26 s)
+Start Date: 2022:10:01 17:21:52
+End Date:   2022:10:01 17:22:18
+```
+
+### Scanning for Malware
+
+First off, we download a malware file from [MalwareBazaar](https://bazaar.abuse.ch/download/e08f17b42e47bf973bf866f167a49b931b99fe1b50bc820078ac2644bd8c209c/) website and decompress the archive using the `infected` password. The PE format (Windows-specific) will protect the machine from being infected, as it cannot be executed natively.
+
+To remove this file using ClamAV, we run the command below:
+
+```bash
+$ mutablesecurity -s CLAMAV -o EXECUTE -i start_scan -a scan_location=/home/ubuntu
+```
+
+If we check the end of the logs, we see how ClamAV successfully identified the threat:
+
+```bash
+/home/ubuntu/e08f17b42e47bf973bf866f167a49b931b99fe1b50bc820078ac2644bd8c209c.exe: Win.Ransomware.Packer-7473772-1 FOUND
+/home/ubuntu/e08f17b42e47bf973bf866f167a49b931b99fe1b50bc820078ac2644bd8c209c.exe: moved to
+'/opt/mutablesecurity/clamav/quarantine/e08f17b42e47bf973bf866f167a49b931b99fe1b50bc820078ac2644bd8c209c.exe'
+
+----------- SCAN SUMMARY -----------
+Known viruses: 8638370
+Engine version: 0.103.6
+Scanned directories: 5327
+Scanned files: 26700
+Infected files: 1
+Data scanned: 703.96 MB
+Data read: 606.18 MB (ratio 1.16:1)
+Time: 2127.701 sec (35 m 27 s)
+Start Date: 2022:10:02 14:06:59
+End Date:   2022:10:02 14:42:27
+```
+
+Also, the file was moved to the `quarantine` folder. Sometimes ClamAV finds false positives, therefore, you should delete it manually if the file is a malware, exactly like this example.
+
+### Updating
+
+ClamAV can be updated manually by running the command below. Most of the time, it will say that it is at its newest version.
+
+```bash
+$ mutablesecurity -s CLAMAV -o UPDATE
+❓ Password:
+💻 Connection root@localhost
+🛑 ClamAV is already at its newest version.
+```
+
+The Talos database has a process attached to it called `freshclam`. This process can be seen at the `TEST` operation, and the identifier is called `active_database`. Freshclam is in charge of updating the database automatically.
+
+## Uninstall ClamAV
+
+To uninstall the solution, simply run `mutablesecurity -s CLAMAV -o UNINSTALL`. Everything tied to ClamAV will be deleted.
+
+## Conclusion
+
+Despite the fact that ClamAV does not offer full protection for a server, it is a nice open-source weapon in the Linux security arsenal. This blog post has shown how to install, configure and scan with ClamAV.
+
+Until next time, take care!
