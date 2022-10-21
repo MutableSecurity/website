@@ -16,13 +16,21 @@ sidebar_position: 10
     cd -
   ```
 
-3. Generate a new executable:
+3. Copy the source files. This will avoid including irrelevant files into the executable.
+
+  ```bash
+  mkdir sources
+  cp  <path_to_main_repo>/mutablesecurity sources
+  ```
+
+4. Generate a new executable:
 
   ```bash
   <path_to_main_repo>/.venv/bin/pex \
-    --sources-directory <path_to_main_repo> \
+    --python "python3" \
+    --sources-directory sources \
     --requirement requirements.txt \
-    --exe <path_to_main_repo>/mutablesecurity/cli/cli.py \
+    --exe sources/mutablesecurity/cli/cli.py \
     --output-file mutablesecurity \
     --disable-cache --emit-warning
   ```
