@@ -2,7 +2,7 @@
 sidebar_position: 10
 ---
 
-# Creating a new PEX Executable
+# Updating the PEX Executable
 
 1. In the `packaging` repository, set `pex-packing` as working directory.
 2. Generate the updated version of `requirements.txt`:

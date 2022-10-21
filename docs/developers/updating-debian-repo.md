@@ -1,5 +1,5 @@
 ---
-sidebar_position: 11
+sidebar_position: 12
 ---
 
 # Updating the Debian Repository
@@ -10,7 +10,7 @@ sidebar_position: 11
     - `./gpg.key`, the GPG private key 
     - `./gpg.pass`, the password of the GPG private key
     - `./packages`, a folder with Debian packages that you want to add into the 
-4. Add the packages into the repository (initially set with `freight-init --gpg=hello@mutablesecurity.io repository`):
+4. Add the packages into the repository:
 
     ```bash
     docker run \
@@ -24,3 +24,5 @@ sidebar_position: 11
 
 5. Remove the container: `docker container rm -f freight`
 6. Commit and push the changes.
+
+**Observation**: The initial repository was created with `freight-init --gpg=hello@mutablesecurity.io repository`.
