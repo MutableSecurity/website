@@ -32,6 +32,7 @@ sidebar_position: 4
 - **coverage.py** for generating coverage information based on pytest's execution
 - **Poe** for task running
 - **Git** for version controlling
+- **ELF2deb** for creating the skeleton of the Debian package
 - **Freight** for managing a Debian repository using a collection of an Shell scripts
 - **Docker** for creating isolated environment for:
     - Updating the Debian repository

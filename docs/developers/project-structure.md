@@ -21,6 +21,9 @@ From a development point of view (landing page not included), the project reside
 - **Snyk** for vulnerability and dependency scanning
 - **Coveralls** for storing coverage information
 - **Dependabot** for automatically updating (process named bumping) Python dependencies
+- **Cloudflare** for:
+    - Hosting the website
+    - Hosting the Debian archive
 
 In terms of production dependencies, the most used packages are:
 - **pyinfra** for connecting to hosts and executing commands
