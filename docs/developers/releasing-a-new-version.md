@@ -2,7 +2,7 @@
 sidebar_position: 9
 ---
 
-# Publishing a New Release
+# Releasing a New Version
 
 1. Follow the first steps from [Using Git and GitHub to Contribute](using-git-and-github-to-contribute.md), where the issue is named "vX.Y.Z Version Release".
 2. Increase the version number inside `pyproject.toml`.
@@ -27,3 +27,12 @@ sidebar_position: 9
     poetry publish --build --dry-run --username mutablesecurity
     poetry publish --build --username mutablesecurity
     ```
+
+10. Update the PEX executable using the [guide](updating-pex-executable.md).
+11. Update the Debian package using the [guide](updating-deb-package.md).
+12. Create a new GitHub release by:
+    - Creating a new tag in the format `vX.Y.Z`.
+    - Setting the title to be the same as the created tag
+    - Placing the version's CHANGELOG section in the description
+    - Uploading the PEX executable (named `mutablesecutity`) and the Debian package (named `mutablesecurity.deb`).
+13. Update the Debian repository using the [guide](updating-debian-repo.md)
