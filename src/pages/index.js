@@ -17,6 +17,16 @@ function HeroBanner() {
           cybersecurity solutions in which administrators can easily pick from
           recommendations tailored to their IT infrastructure's requirements.
         </h2>
+        <div className={clsx(styles.ctaButtonContainer)}>
+          <a href="https://github.com/MutableSecurity/mutablesecurity">
+            <button
+              className={clsx('button button--secondary', styles.ctaButton)}
+            >
+              <span className={clsx(styles.github)} /> &nbsp;Start Defending
+              Your Infrastructure
+            </button>
+          </a>
+        </div>
       </div>
     </header>
   );
