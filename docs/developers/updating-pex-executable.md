@@ -19,15 +19,15 @@ sidebar_position: 10
 3. Copy the source files. This will avoid including irrelevant files into the executable.
 
   ```bash
-  mkdir sources
-  cp  <path_to_main_repo>/mutablesecurity sources
+  cp <path_to_main_repo>/mutablesecurity sources
   ```
 
 4. Generate a new executable:
 
   ```bash
   <path_to_main_repo>/.venv/bin/pex \
-    --python "python3" \
+    --python "python3.9" \
+    --python-shebang "/usr/bin/env python3" \
     --sources-directory sources \
     --requirement requirements.txt \
     --exe sources/mutablesecurity/cli/cli.py \
