@@ -15,12 +15,16 @@ sidebar_position: 5
 
 ## Solutions Categories
 
-| Category         | Description                             |
-| ---------------- | --------------------------------------- |
-| `WEB_IDS`        | Web Intrusion Detection System          |
-| `NETWORK_IDPS`   | Network Detection and Prevention System |
-| `WEB_ENCRYPTION` | Encryption for Web Applications         |
-| `NONE`           | No Security                             |
+| Category          | Description                             |
+|-------------------|-----------------------------------------|
+| `WEB_IDS`         | Web Intrusion Detection System          |
+| `NETWORK_IDPS`    | Network Detection and Prevention System |
+| `WEB_ENCRYPTION`  | Encryption for Web Applications         |
+| `HOST_IPS`        | Host Intrusion Prevention System        |
+| `HOST_PROTECTION` | Host Protection                         |
+| `ANTIMALWARE`     | Antimalware                             |
+| `LOG_SHIPPER`     | Log Shipper                             |
+| `NONE`            | No Security                             |
 
 ## Test Types
 
