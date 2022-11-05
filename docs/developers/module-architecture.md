@@ -164,10 +164,10 @@ Inherits `BaseLog` from `mutablesecurity.solutions.base`.
 
 #### Methods and Members
 
-- **pyinfra fact**: Defined as a class inheriting pyinfra's `FactBase`, returns a string.
 - **Member `IDENTIFIER`**: Unique alpha string, lowercased and with underscore as the single special character accepted (used instead of spaces)
 - **Member `DESCRIPTION`**: Grammatically-correct phrase describing the log source content
-- **Member `FACT`**: Reference to the above-mentioned pyinfra fact
+- **Member `LOCATION`**: If the location is static, then this will be only a string with the path. Otherwise, use an information that returns the location (for example, when it is set by the user).
+- **Member `FORMAT`**: Logs format, one of the value from the [Log Formats](basics/indexes#log-formats) index
 
 ### Tests
 

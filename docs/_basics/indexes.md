@@ -47,6 +47,13 @@ sidebar_position: 5
 | `READ_ONLY`                     | The value could not be written, only read.                                                                                                                              |                              | Any metric                                                    |
 | `WRITABLE`                      | The value could be written and read.                                                                                                                                    |                              | A server on which an agent reports                            |
 
+## Log Formats
+
+| Format | Description           |
+|--------|-----------------------|
+| `JSON` | JSON                  |
+| `TEXT` | Single-line plaintext |
+
 ## `.mutablesecurity` Keys
 
 | Key                      | Description                                                   | Possible Values                                       |
