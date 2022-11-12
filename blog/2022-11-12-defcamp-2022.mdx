@@ -1,0 +1,48 @@
+---
+slug: defcamp-2022
+title: Showcasing MutableSecurity at DefCamp 2022
+authors: mutablesecurity
+tags: [defcamp, oss-showcase]
+---
+
+The last two days, our team was present at [DefCamp](https://def.camp), the largest cybersecurity conference from Central and Eastern Europe.
+
+## Presentation
+
+Beside talking to (and drinking beers with) awesome hackers, we had the opportunity to showcase our open-source project in a presentation called "**_MutableSecurity: Life's too short. Automate everything!_**".
+
+The following subjects we're discussed:
+
+- The economic perspective on the cybersecurity context;
+- How MutableSecurity can be of assistance;
+- [A demonstration](#demo); and
+- The integration of security mechanisms to our codebase.
+
+<iframe
+  src="https://drive.google.com/file/d/1mwYgkJg7PqU95nzyuzyJUAa8zAzHznpn/preview"
+  width="100%"
+  height="480"
+  allow="autoplay"
+></iframe>
+
+## Demo
+
+The presentation was accompanied by a **scenario** taking into account a small IT outsourcing company's production infrastructure, which consisted of an **nginx web server** with enabled remote access through **password-based SSH**.
+
+Two separate viewpoints are presented in the video below. The first is designated with a red border, which is the **hacker** one. Its objectives are to scan the server ports, bruteforce the SSH credentials using a known username, and exploit of the local file inclusion vulnerability. A Python 3 script is used to automate the final two steps.
+
+The second viewpoint has purple borders and shows how the company's **IT or security engineer** can use MutableSecurity to protect its server. The following security solutions were configured, installed, and tested:
+
+- **[teler](https://mutablesecurity.io/docs/users/modules/teler)** to detect web attacks;
+- **[Fail2ban](https://mutablesecurity.io/docs/users/modules/fail2ban)** to detect SSH bruteforce and block it in addition to the web attacks; and
+- **[Vector](https://mutablesecurity.io/docs/users/modules/vector)** to send logs from teler and Fail2ban to a cloud-based **Loki** instance.
+
+<div class="youtube-container">
+  <iframe
+    src="https://www.youtube.com/embed/C7CSRUYWrjU"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
+</div>
