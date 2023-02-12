@@ -57,6 +57,14 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+        id: 'discontinued_project',
+        content:
+          'MutableSecurity was <b>discontinued</b>. For more information, please see <a href="https://mutablesecurity.io/blog/coming-to-an-end/">this blog post</a>.',
+        backgroundColor: '#e74c3c',
+        textColor: '#ffffff',
+        isCloseable: false,
+      },
       navbar: {
         title: 'MutableSecurity',
         logo: {
