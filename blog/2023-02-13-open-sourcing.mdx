@@ -1,0 +1,146 @@
+---
+slug: open-sourcing
+title: Open-sourcing All Repositories
+authors: mutablesecurity
+tags: [open-source, software-architecture, project-retirement]
+---
+
+import Admonition from '@theme/Admonition';
+
+More than two months ago, we argued the decision to close MutableSecurity. We described how MutableSecurity's journey looked like and highlighted the plans for the following period: open-sourcing the codebase and archiving/deleting MutableSecurity's assets on the Internet (repositories, packages, etc.).
+
+As a follow-up, the purpose of this post is to describe the **software architecture** that we wanted to achieve for our commercial product. In addition, it will list the **steps executed for the project's retirement**, which could represent a model for other closed-source software initiatives that reached this stage.  
+
+## Desired Software Architecture
+
+The outcome of our commercial product was to deliver a way to remotely manage and monitor the security solutions installed on the organization's hosts. The following sections will describe each element of the architecture.
+
+![Desired Architecture](/images/blog/2023-02-13-open-sourcing/c4.png)
+
+### Cybersecurity Solutions' Automation with Target Agents
+
+The **target agents** are Python 3 **wrappers for the open-source package**, [`mutablesecurity`](https://github.com/MutableSecurity/mutablesecurity). To give visibility and control to the web dashboard, the administrator installs agents on each server that needs to be managed by MutableSecurity.
+
+The functionality consists of the following steps:
+
+1. Parses the configuration file that contains information such as:
+    - API key to authenticate to the orchestration agent;
+    - The address and port of the orchestration agent; and
+    - The reporting period, in seconds.
+2. Connects to the orchestration agent and authenticates itself using the provided API key.
+3. Sets a ticker depending on the reporting period and execute, at each tick, the following operations:
+    1. Deduces what cybersecurity solutions are installed on the server.
+    2. For each solution, extracts the specific **information** and executes the **tests**.
+    3. Combines the resulting information into a single data structure.
+    4. Sends the generated data to the orchestration agent via HTTPS.
+
+<Admonition type="info" icon="🔗" title="Open-source Reference">
+    The source code of this component is available <a href="https://github.com/MutableSecurity/target-agent">here</a>.
+</Admonition>
+
+### Data Aggregation with Orchestration Agents
+
+The **orchestration agent** is the **aggregation service**, built with Python 3. All target agents in the current network will connect to this type of agent. In this manner, it will be the single point in the reporting infrastructure with an Internet connection.
+
+The operations that it executes are:
+
+1. Parses the configuration file that contains information such as:
+    - Bind address and port, where it will listen; and
+    - Credentials to authenticate to Firebase.
+2. Processes a host file, which contains, for each target agent which is allowed a connection, the following information:
+    - An API key that needs to be presented by the agent on each connection;
+    - A unique identifier; and
+    - A description of the agent.
+3. Authenticates to Firebase using the credentials from the configuration.
+4. Sets up an HTTPS server to let the target agents connect.
+5. Whenever a legitimate agent connects, store the reported information in the user-specific section of the database.
+
+The host files mentioned above could be modified either manually or with a standalone script.
+
+<Admonition type="info" icon="🔗" title="Open-source Reference">
+    The source code of this component is available <a href="https://github.com/MutableSecurity/orchestration-agent">here</a>.
+</Admonition>
+
+### Storage with Firebase
+
+**Firebase** is used to store the reported data in a **resilient cloud environment**. Its non-structural aspect provides a malleability that is not present for structural (for example, SQL-backed) ones. This approach avoids issues imposed by fixed structures, but comes with an additional responsibility to ensure data's correctness.
+
+In addition, we created access control lists in Firebase such that a user can write only to its allocated partition.
+
+### Data Visualization with Dash
+
+The visualization element in the distributed architecture is a **web dashboard**. **Dash** is built with React.js and Chakra UI. In the first iteration, it queries data from Firebase to:
+- Show overview statistics about the security architecture;
+- List the installed agents;
+- List the automated solutions; and
+- Monitor the details (configuration, metrics, and tests) of the automated solutions.
+
+<div class="youtube-container">
+    <iframe
+    src="https://www.youtube.com/embed/ZEihPZa1-to"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
+</div>
+
+<br/>
+
+<Admonition type="info" icon="🔗" title="Open-source Reference">
+    The source code of this component is available <a href="https://github.com/MutableSecurity/dash">here</a>.
+</Admonition>
+
+### Alerting with Google Cloud Functions
+
+Another functional requirement of the architecture was **alerting** the administrators when certain events occur:
+- **Failed tests**: Consider a scenario in which we've used MutableSecurity to install Suricata in the IDS mode. If the test checking the Suricata process fails, then the IDS no longer processes traffic and generates security alerts. This issue permits attackers to benefit from the lack of network analysis and visibility. Thereby, the administrator should be alerted as he needs to manually analyze why this happened and restore its functioning.
+- **Configuration change**: In the same scenario, an attacker with access to the IDS may disable the automatic updates. Although the community feeds will publish IOCs (hashes, IP addresses, etc.) describing the attacker's behavior, the IDS will not be able to retrieve them. Thereby, the administrator should be noticed of any configuration change of the security solutions, despite the cases in which he makes the changes.
+
+![Failed Test Email](/images/blog/2023-02-13-open-sourcing/failed-test-email.png)
+
+![Configuration Change Email](/images/blog/2023-02-13-open-sourcing/config-change-email.png)
+
+The alerting infrastructure consists of a **Google Cloud function** that is executed every time data is reported by an agent. If failed tests or configuration changes are detected, then an email is sent via **SendGrid**, having the above dynamic templates.
+
+<Admonition type="info" icon="🔗" title="Open-source Reference">
+    The source code of this component is available <a href="https://github.com/MutableSecurity/cloud-functions/tree/main/alert_generation">here</a>.
+</Admonition>
+
+### Periodically Deleting Data with Google Cloud Functions
+
+The last element of the architecture is a Google Cloud function, whose sole purpose is to periodically delete old data from Firebase. The configuration provides the retention period.
+
+<Admonition type="info" icon="🔗" title="Open-source Reference">
+    The source code of this component is available <a href="https://github.com/MutableSecurity/cloud-functions/tree/main/dash_data_retention">here</a>.
+</Admonition>
+
+## Retirement Checklist
+
+- [x] Closing the issues and pull requests
+- [x] Deleting the accounts related to the project
+- [x] Revoking the access of third-party apps to the organization
+- [x] Checking the repositories with [Gitleaks](https://github.com/zricethezav/gitleaks) such that no active API key is disclosed
+- [x] Adding `LICENSE.md` and `README.md` files to all repositories
+- [x] Archiving all repositories
+- [x] Adding a banner to the website to mark the project as discontinued
+
+### Account Deletion
+
+The second step in the previous checklist involved, in our case, the deletion of:
+- PyPi;
+- DeepSource;
+- Google Cloud Platform, including Firebase; and
+- SendGrid accounts.
+
+This automatically ensures that:
+- The **API keys** will be destroyed. Even though they will become public in the open-source code, they cannot be used anymore.
+- The **packages** cannot be downloaded anymore with `pip install mutablesecurity`.
+
+## Conclusion
+
+This wrap-up blog post described, from a technical perspective, how the retirement process looked like for MutableSecurity. This involved the publishing in the open-source of multiple repositories that were previously accessible only by the team members.
+
+With this information in mind, the blog post is the last one in MutableSecurity's lifespan. With the [previous thanks](/blog/coming-to-an-end#lastly) in mind, we want to end by hoping the information presented in this post and blog was helpful.
+
+See you next time!
