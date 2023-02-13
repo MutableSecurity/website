@@ -13,7 +13,7 @@ Startup ideas, for example, could die more abruptly than other ideas. One well-k
 
 The key takeaway is that **all ideas have a finite life span** and either get ingrained in society or perish. Or, in the words of Frank Herbert, that “*every revolution carries within it the seeds of its own destruction*”.
 
-# MutableSecurity in a Nutshell
+## MutableSecurity in a Nutshell
 
 Everything began at the University Politehnica of Bucharest in the fall of the previous year. We were a team of seven students that were passionate about cybersecurity and came together for a semester project. The concept for MutableSecurity, an automated platform for cybersecurity solutions, emerged. We intended to make it as simple as possible for IT and security professionals to install, configure, test, and monitor the tools they require to safeguard their IT infrastructures.
 
@@ -27,7 +27,7 @@ To cut a long story short, the following **memorable moments** occurred during t
 - Presenting the idea on DefCamp; and
 - Meeting a lot of great people.
 
-# Coming to an End
+## Coming to an End
 
 We regretfully announce the **closure of MutableSecurity**, but we have far higher hopes for the future. After all these months of work, the primary concern we had in the most recent period was not whether we could (technically) complete the product, but whether we still wanted to.
 
@@ -42,7 +42,7 @@ The principles below can be used to describe further conclusions we came to from
 3. **Pick programming languages with strong packaging and testing features**. If you do the reverse, you’ll stop testing your code and release buggy software, or spend too much time creating deployable packages.
 4. **Distinguish between the opinions of well-known individuals to whom you pitch the idea and those of your target audience**. The former are nice and inspiring, but they don’t provide validation.
 
-# What’s Next for MutableSecurity
+## What’s Next for MutableSecurity
 
 Despite our decision, MutableSecurity is not being shut down immediately today. The **three months’ worth of plans** are:
 
@@ -51,7 +51,7 @@ Despite our decision, MutableSecurity is not being shut down immediately today. 
 
 We’ll continue to use LinkedIn and Twitter as our primary social media platforms for posting updates on the above-mentioned actionables. **We make available the credentials needed to access [Dash](https://dash.mutablesecurity.io)** so that you can get a brief idea of how MutableSecurity was intended to function.
 
-# Lastly
+## Lastly
 
 We’d want to end by thanking all the wonderful folks we met over this time ❤️. We know that without the help we received (crash courses, workshops, direct feedback, advices, and suggestions), our journey would not have been as beautiful as it was.
 
